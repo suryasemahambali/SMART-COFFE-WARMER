@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Coffee Warmer - PID Tuning</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Smart Coffee Warmer <span class="badge-pid">PID v2.5</span></h1>
+            <p>Simulasi Pemanas Otomatis dengan Algoritma Auto-Tuning PID</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card control-card">
+                <h3>Pengaturan Parameter</h3>
+                
+                <div class="input-group">
+                    <label for="setpoint-input">Target Set Point (°C):</label>
+                    <input type="number" id="setpoint-input" value="65" min="30" max="90">
+                </div>
+
+                <div class="pid-parameters-manual">
+                    <div class="input-pid">
+                        <label>Kp:</label>
+                        <input type="number" id="kp-input" value="2.5" step="0.1" onchange="updateParameterManual()">
+                    </div>
+                    <div class="input-pid">
+                        <label>Ki:</label>
+                        <input type="number" id="ki-input" value="0.5" step="0.05" onchange="updateParameterManual()">
+                    </div>
+                    <div class="input-pid">
+                        <label>Kd:</label>
+                        <input type="number" id="kd-input" value="1.2" step="0.1" onchange="updateParameterManual()">
+                    </div>
+                </div>
+
+                <button class="btn btn-tune" id="btn-autotune" onclick="mulaiAutoTune()">⚙️ Jalankan Auto-Tuning PID</button>
+            </div>
+
+            <div class="card simulation-card">
+                <h3>Live Visual Simulation</h3>
+                <div class="coffee-simulation">
+                    <div class="thermometer-container">
+                        <div class="thermometer-bar" id="thermo-bar"></div>
+                    </div>
+                    
+                    <div class="cup-container">
+                        <div class="steam-container" id="steam-box">
+                            <span class="steam"></span>
+                            <span class="steam"></span>
+                            <span class="steam"></span>
+                        </div>
+                        <div class="coffee-cup">
+                            <div class="coffee-fluid" id="coffee-liquid"></div>
+                            <div class="cup-handle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card status-card">
+                <h3>Kondisi Kopi</h3>
+                <div class="temp-display"><span id="suhu-nilai">25.0</span>°C</div>
+                <div class="status-badge" id="status-mesin">Standby</div>
+                
+                <div class="heater-load-container">
+                    <small>Daya Pemanas: <span id="load-val">0</span>%</small>
+                    <div class="progress-bar"><div class="progress-fill" id="load-fill"></div></div>
+                </div>
+            </div>
+
+            <div class="card env-card">
+                <h3>Simulasi Gangguan</h3>
+                <p>Uji ketahanan kestabilan sistem kontrol saat suhu kopi drop mendadak:</p>
+                <div class="btn-group">
+                    <button class="btn btn-danger" onclick="tambahGangguan(-10)">💨 Tiup Kopi (-10°C)</button>
+                    <button class="btn btn-success" onclick="tambahGangguan(15)">☕ Tambah Air Panas (+15°C)</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="log-section">
+            <h3>Log & Proses Perhitungan PID</h3>
+            <div class="log-box" id="log-box">
+                <div class="log-item">[SYSTEM] Aplikasi siap. Atur set point atau utak-atik KP, KI, KD secara manual.</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
